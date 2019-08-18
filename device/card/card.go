@@ -1,17 +1,23 @@
 package card
 
+import "time"
+
 // A Card represents a flashcard with a question and an answer.
 type Card struct {
-	Question string `json:"question"`
-	Answer   string `json:"answer"`
-	History  []bool `json:"history"`
+	Question string    `json:"question"`
+	Answer   string    `json:"answer"`
+	History  []*Record `json:"history"`
+	Created  time.Time `json:"created"`
 }
 
 // New returns a new card.
 func New(q, a string) *Card {
-	var history []bool
-	return &Card{q, a, history}
+	var history []*Record
+	return &Card{q, a, history, time.Now().UTC()}
 }
+
+// A Template is a mapping which determines a set of fields to display.
+type Template map[string]interface{}
 
 // A Type contains templates for mapping fields to the question and answer
 // fields of a Card.
@@ -26,30 +32,40 @@ func NewType(name string, q, a Template) *Type {
 	return &Type{name, q, a}
 }
 
-// A Template is a mapping which determines a set of fields to display.
-type Template map[string]interface{}
+// A Record represents a historical record of a response to a card. The record
+// indicates whether the card was correctly answered and the time of the
+// response.
+type Record struct {
+	Correct bool      `json:"correct"`
+	Created time.Time `json:"created"`
+}
+
+// NewRecord returns a new record.
+func NewRecord(correct bool) *Record {
+	return &Record{correct, time.Now().UTC()}
+}
 
 // Query returns the question and answer for c.
 func (c *Card) Query() (q, a string) {
 	return c.Question, c.Answer
 }
 
-// Record appends a bool to the history of c indicating whether or not the
-// question was answered correctly.
-func (c *Card) Record(correct bool) {
-	c.History = append(c.History, correct)
+// AddRecord appends a new record to the history of c indicating whether or not
+// the card was answered correctly.
+func (c *Card) AddRecord(correct bool) {
+	c.History = append(c.History, NewRecord(correct))
 }
 
 // ClearHistory resets the performance history of c.
 func (c *Card) ClearHistory() {
-	c.History = make([]bool, 0)
+	c.History = make([]*Record, 0)
 }
 
 // LastAttempt returns a bool indicating whether c was correctly answered on
 // the most recent attempt according to the history.
-func (c *Card) LastAttempt() bool {
+func (c *Card) LastAttempt() *Record {
 	if len(c.History) == 0 {
-		return false
+		return nil
 	}
 	return c.History[len(c.History)-1]
 }
