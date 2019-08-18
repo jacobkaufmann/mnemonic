@@ -1,41 +1,33 @@
 package card
 
-import (
-	"math/rand"
-	"time"
-)
-
-// gen is a pseudo-random number generator.
-var gen = rand.New(rand.NewSource(time.Now().UnixNano()))
-
-// A Card represents a flashcard. If a card is reversible, either side may
-// be presented as a prompt. Otherwise, front is always treated as the question
-// and back is always treated as the answer.
+// A Card represents a flashcard with a question and an answer.
 type Card struct {
-	Front      string `json:"front"`
-	Back       string `json:"back"`
-	Reversible bool   `json:"reversible"`
+	Question string `json:"question"`
+	Answer   string `json:"answer"`
 }
 
 // New returns a new card.
-func New(front, back string, reversible bool) *Card {
-	return &Card{
-		Front:      front,
-		Back:       back,
-		Reversible: reversible,
-	}
+func New(q, a string) *Card {
+	return &Card{q, a}
 }
 
-// Query returns a question and answer for c. If reversible, return either
-// combination with probability one half.
-func (c *Card) Query() (q, a string) {
-	if !c.Reversible {
-		return c.Front, c.Back
-	}
+// A Type contains templates for mapping fields to the question and answer
+// fields of a Card.
+type Type struct {
+	Name     string   `json:"name"`
+	Question Template `json:"questionTemplate"`
+	Answer   Template `json:"answerTemplate"`
+}
 
-	n := gen.Float64()
-	if n < 0.5 {
-		return c.Front, c.Back
-	}
-	return c.Back, c.Front
+// NewType returns a new card type.
+func NewType(name string, q, a Template) *Type {
+	return &Type{name, q, a}
+}
+
+// A Template is a mapping which determines a set of fields to display.
+type Template map[string]interface{}
+
+// Query returns the question and answer for c.
+func (c *Card) Query() (q, a string) {
+	return c.Question, c.Answer
 }
