@@ -24,7 +24,8 @@ func (d *Deck) AddCard(card *Card) {
 }
 
 // Filter represents a function that determines which cards from a deck
-// should be included for study.
+// should be included for study. If the filter returns true, the card
+// should be included.
 type Filter func(card *Card) (keep bool)
 
 // Study returns a sequence of cards from d for practice. The sequence of cards
