@@ -14,13 +14,18 @@ type Deck struct {
 
 // NewDeck returns a new deck called name with a specified card type.
 func NewDeck(name string, cardType Type) *Deck {
-	var cards []*Card
+	cards := []*Card{}
 	return &Deck{name, cards, cardType}
 }
 
 // AddCard adds a card to the deck.
 func (d *Deck) AddCard(card *Card) {
 	d.Cards = append(d.Cards, card)
+}
+
+// Clear resets the deck to an empty slice.
+func (d *Deck) Clear() {
+	d.Cards = []*Card{}
 }
 
 // Filter represents a function that determines which cards from a deck
