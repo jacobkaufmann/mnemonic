@@ -12,7 +12,7 @@ type Card struct {
 
 // New returns a new card.
 func New(q, a string) *Card {
-	var history []*Record
+	history := []*Record{}
 	return &Card{q, a, history, time.Now().UTC()}
 }
 
@@ -58,7 +58,7 @@ func (c *Card) AddRecord(correct bool) {
 
 // ClearHistory resets the performance history of c.
 func (c *Card) ClearHistory() {
-	c.History = make([]*Record, 0)
+	c.History = []*Record{}
 }
 
 // LastAttempt returns a bool indicating whether c was correctly answered on
