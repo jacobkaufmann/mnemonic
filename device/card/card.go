@@ -1,6 +1,9 @@
 package card
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 // A Card represents a flashcard with a question and an answer.
 type Card struct {
@@ -14,6 +17,21 @@ type Card struct {
 func New(q, a string) *Card {
 	history := []*Record{}
 	return &Card{q, a, history, time.Now().UTC()}
+}
+
+// NewFromMap returns a new card defined by map m and type t.
+func NewFromMap(m map[string]interface{}, t Type) *Card {
+	var q, a string
+	for k, v := range m {
+		if t.Question[k] {
+			q += fmt.Sprintf("%s: %v\n", k, v)
+		}
+		if t.Answer[k] {
+			a += fmt.Sprintf("%s: %v\n", k, v)
+		}
+	}
+
+	return New(q, a)
 }
 
 // A Template defines a set of fields to display.
