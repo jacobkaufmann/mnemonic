@@ -2,17 +2,17 @@ package note
 
 import "github.com/jacobkaufmann/mnemonic/device/card"
 
-// A Note represents a set of fields. Fields are units of information, and
-// the note type defines how those fields are organized.
+// A Note represents a structured map of information that can be transformed
+// into a defined set of cards.
 type Note struct {
-	Fields map[string]interface{} `json:"fields"`
-	Type   Type                   `json:"type"`
+	Content map[string]interface{} `json:"content"`
+	Type    Type                   `json:"type"`
 }
 
-// A Type defines a set of fields a note may have and a set of card types
-// which define the ways a note can be represented as a card.
+// A Type defines a set of fields a note may have and a set of card types to
+// define the ways a note can be represented as a card.
 type Type struct {
-	Name       string          `json:"name"`
-	FieldNames map[string]bool `json:"fieldNames"`
-	CardTypes  []*card.Type    `json:"cardTypes"`
+	Name      string          `json:"name"`
+	Fields    map[string]bool `json:"fields"`
+	CardTypes []*card.Type    `json:"cardTypes"`
 }
