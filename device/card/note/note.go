@@ -12,7 +12,7 @@ type Note struct {
 // A Type defines a set of fields a note may have and a set of card types
 // which define the ways a note can be represented as a card.
 type Type struct {
-	Name       string       `json:"name"`
-	FieldNames []string     `json:"fieldNames"`
-	CardTypes  []*card.Type `json:"cardTypes"`
+	Name       string          `json:"name"`
+	FieldNames map[string]bool `json:"fieldNames"`
+	CardTypes  []*card.Type    `json:"cardTypes"`
 }
