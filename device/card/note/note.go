@@ -2,8 +2,8 @@ package note
 
 import "github.com/jacobkaufmann/mnemonic/device/card"
 
-// A Note represents a structured map of information that can be transformed
-// into a defined set of cards.
+// A Note represents a map of information that can be transformed into a set
+// of cards.
 type Note struct {
 	Content map[string]interface{} `json:"content"`
 	Type    Type                   `json:"type"`
