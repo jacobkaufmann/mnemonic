@@ -16,8 +16,8 @@ func New(q, a string) *Card {
 	return &Card{q, a, history, time.Now().UTC()}
 }
 
-// A Template is a mapping which determines a set of fields to display.
-type Template map[string]interface{}
+// A Template defines a set of fields to display.
+type Template map[string]bool
 
 // A Type contains templates for mapping fields to the question and answer
 // fields of a Card.
