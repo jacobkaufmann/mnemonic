@@ -81,10 +81,10 @@ func makeConfig() error {
 
 // DeckDir returns the configured deck directory.
 func DeckDir() string {
-	return filepath.Join(cfgPath, viper.GetString(deckDirKey))
+	return viper.GetString(deckDirKey)
 }
 
 // NoteDir returns the configured note directory.
 func NoteDir() string {
-	return filepath.Join(cfgPath, viper.GetString(noteDirKey))
+	return viper.GetString(noteDirKey)
 }
