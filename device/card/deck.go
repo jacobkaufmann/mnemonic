@@ -33,6 +33,9 @@ func (d *Deck) Clear() {
 // should be included.
 type Filter func(card *Card) (keep bool)
 
+// FilterKeepAll is a filter which returns true for any card.
+var FilterKeepAll = func(*Card) bool { return true }
+
 // Study returns a sequence of cards from d for practice. The sequence of cards
 // may optionally be filtered according to filter.
 func (d *Deck) Study(filter Filter, shuffle bool) []*Card {
