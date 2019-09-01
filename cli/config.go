@@ -1,39 +1,56 @@
 package cli
 
 import (
+	"os"
 	"path/filepath"
 
 	"github.com/spf13/viper"
 )
 
 const (
-	cfgType = "yaml"
-	cfgFile = "config"
-	cfgPath = "$HOME/.mnemonic/"
-
-	appDir = "mnemonic"
+	cfgFilename = "config.yaml"
+	cfgType     = "yaml"
+	cfgDir      = ".mnemonic"
 
 	deckDirKey = "DeckDir"
 	noteDirKey = "NoteDir"
-
-	defaultDeckDir = "decks"
-	defaultNoteDir = "notes"
 )
 
-// Init initializes the mnemonic configuration.
-func Init() {
+var (
+	home = os.Getenv("HOME")
+
+	cfgPath = filepath.Join(home, cfgDir)
+	cfgFile = filepath.Join(cfgPath, cfgFilename)
+
+	defaultDeckDir = filepath.Join(cfgPath, "decks")
+	defaultNoteDir = filepath.Join(cfgPath, "notes")
+)
+
+func init() {
 	viper.SetConfigType(cfgType)
-	viper.SetConfigName(cfgFile)
+	viper.SetConfigName(cfgFilename)
 	viper.AddConfigPath(cfgPath)
-	viper.SetDefault(deckDirKey, defaultDeckDir)
-	viper.SetDefault(noteDirKey, defaultNoteDir)
-	viper.WriteConfig()
-	viper.WatchConfig()
 }
 
-// Load loads the mnemonic configuration. An error is returned if there is an
-// error retrieving the configuration.
-func Load() error {
+// initConfig initializes the mnemonic configuration.
+func initConfig() error {
+	err := makeConfig()
+	if err != nil {
+		return err
+	}
+
+	viper.Set(deckDirKey, defaultDeckDir)
+	viper.Set(noteDirKey, defaultNoteDir)
+	err = viper.WriteConfigAs(cfgFile)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// loadConfig loads the mnemonic configuration.
+func loadConfig() error {
 	if err := viper.ReadInConfig(); err != nil {
 		return err
 	}
@@ -41,12 +58,33 @@ func Load() error {
 	return nil
 }
 
+// makeConfig creates the configuration directory and files.
+func makeConfig() error {
+	var err error
+
+	err = makeDir(cfgPath, os.ModePerm)
+	if err != nil {
+		return err
+	}
+
+	_, err = os.Create(cfgFile)
+	if err != nil {
+		return err
+	}
+	err = os.Chmod(cfgFile, os.ModePerm)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // DeckDir returns the configured deck directory.
 func DeckDir() string {
-	return filepath.Join(appDir, viper.GetString(deckDirKey))
+	return filepath.Join(cfgPath, viper.GetString(deckDirKey))
 }
 
 // NoteDir returns the configured note directory.
 func NoteDir() string {
-	return filepath.Join(appDir, viper.GetString(noteDirKey))
+	return filepath.Join(cfgPath, viper.GetString(noteDirKey))
 }
