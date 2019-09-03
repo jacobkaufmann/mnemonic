@@ -12,8 +12,8 @@ const (
 	cfgType     = "yaml"
 	cfgDir      = ".mnemonic"
 
-	deckDirKey = "DeckDir"
-	noteDirKey = "NoteDir"
+	keyDeckDir = "DeckDir"
+	keyNoteDir = "NoteDir"
 )
 
 var (
@@ -39,8 +39,8 @@ func initConfig() error {
 		return err
 	}
 
-	viper.Set(deckDirKey, defaultDeckDir)
-	viper.Set(noteDirKey, defaultNoteDir)
+	viper.Set(keyDeckDir, defaultDeckDir)
+	viper.Set(keyNoteDir, defaultNoteDir)
 	err = viper.WriteConfigAs(cfgFile)
 	if err != nil {
 		return err
@@ -81,10 +81,10 @@ func makeConfig() error {
 
 // DeckDir returns the configured deck directory.
 func DeckDir() string {
-	return viper.GetString(deckDirKey)
+	return viper.GetString(keyDeckDir)
 }
 
 // NoteDir returns the configured note directory.
 func NoteDir() string {
-	return viper.GetString(noteDirKey)
+	return viper.GetString(keyNoteDir)
 }
