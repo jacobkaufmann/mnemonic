@@ -16,6 +16,7 @@ func makeRootCommand() (*cobra.Command, error) {
 		Short: "Mnemonic is a general purpose recall tool",
 	}
 
+	rootCmd.AddCommand(cmd.MakeListCmd())
 	rootCmd.AddCommand(cmd.MakeImportCmd())
 	rootCmd.AddCommand(cmd.MakeStudyCmd())
 
