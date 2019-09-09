@@ -7,15 +7,14 @@ import (
 
 // A Deck is a collection of cards.
 type Deck struct {
-	Name     string  `json:"name"`
-	Cards    []*Card `json:"cards"`
-	CardType Type    `json:"cardType"`
+	Name  string  `json:"name"`
+	Cards []*Card `json:"cards"`
 }
 
-// NewDeck returns a new deck called name with a specified card type.
-func NewDeck(name string, cardType Type) *Deck {
+// NewDeck returns a new deck called name.
+func NewDeck(name string) *Deck {
 	cards := []*Card{}
-	return &Deck{name, cards, cardType}
+	return &Deck{name, cards}
 }
 
 // AddCard adds a card to the deck.
