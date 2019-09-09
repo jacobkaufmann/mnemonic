@@ -2,6 +2,7 @@ package card
 
 import (
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -21,17 +22,17 @@ func New(q, a string) *Card {
 
 // NewFromMap returns a new card defined by map m and type t.
 func NewFromMap(m map[string]interface{}, t Type) *Card {
-	var q, a string
+	var q, a strings.Builder
 	for k, v := range m {
 		if t.Question[k] {
-			q += fmt.Sprintf("%s: %v\n", k, v)
+			q.WriteString(fmt.Sprintf("%s: %v\n", k, v))
 		}
 		if t.Answer[k] {
-			a += fmt.Sprintf("%s: %v\n", k, v)
+			a.WriteString(fmt.Sprintf("%s: %v\n", k, v))
 		}
 	}
 
-	return New(q, a)
+	return New(q.String(), a.String())
 }
 
 // A Template defines a set of fields to display.
