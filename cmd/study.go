@@ -1,10 +1,8 @@
 package cmd
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -107,31 +105,4 @@ func cmdStudyDeck() *cobra.Command {
 // questionPrompt is a helper function to generate the prompt for a question.
 func questionPrompt(q string) string {
 	return fmt.Sprintf("\n%s\n  - %s\n\n%s\n", prefixQuestion, q, suffixQuestion)
-}
-
-// readFileJSON is a helper function to read a JSON file specified by path and
-// decode the data into v.
-func readFileJSON(path string, v interface{}) error {
-	data, err := ioutil.ReadFile(path)
-	if err != nil {
-		return err
-	}
-
-	return json.Unmarshal(data, v)
-}
-
-// writeFileJSON is a helper function to JSON encode v and write the result to
-// a file specified by path.
-func writeFileJSON(path string, v interface{}, perm os.FileMode) error {
-	data, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	err = ioutil.WriteFile(path, data, perm)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
