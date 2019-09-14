@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -51,23 +49,19 @@ func cmdImportDeck() *cobra.Command {
 			}
 
 			var deck card.Deck
-			data, err := ioutil.ReadFile(filename)
+			err = readFileJSON(filename, &deck)
 			if err != nil {
 				return err
 			}
-			err = json.Unmarshal(data, &deck)
-			if err != nil {
-				return err
-			}
+
+			// Assign deck name as filename.
 			deck.Name = strings.Split(filepath.Base(filename), ".")[0]
 
-			data, err = json.Marshal(deck)
+			importPath := filepath.Join(cli.DeckDir(), deck.Name+fileExtensionJSON)
+			err = writeFileJSON(importPath, &deck, os.ModePerm)
 			if err != nil {
 				return err
 			}
-
-			importPath := filepath.Join(cli.DeckDir(), deck.Name+fileExtensionJSON)
-			err = ioutil.WriteFile(importPath, data, os.ModePerm)
 
 			return nil
 		},
