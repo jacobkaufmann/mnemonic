@@ -15,9 +15,6 @@ import (
 )
 
 const (
-	flagName  = "name"
-	flagNameS = "n"
-
 	prefixQuestion = "Question:"
 	prefixAnswer   = "Answer:"
 	suffixQuestion = "[ENTER] for answer"

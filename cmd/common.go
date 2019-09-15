@@ -6,6 +6,10 @@ import (
 	"os"
 )
 
+const (
+	fileExtensionJSON = ".json"
+)
+
 // readFileJSON is a helper function to read a JSON file specified by path and
 // decode the data into v.
 func readFileJSON(path string, v interface{}) error {

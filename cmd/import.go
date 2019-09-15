@@ -11,13 +11,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const (
-	flagFilename  = "filename"
-	flagFilenameS = "f"
-
-	fileExtensionJSON = ".json"
-)
-
 // MakeImportCmd returns the mnemonic import command.
 func MakeImportCmd() *cobra.Command {
 	cmdImport := &cobra.Command{
