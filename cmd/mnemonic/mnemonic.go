@@ -17,6 +17,7 @@ func makeRootCommand() (*cobra.Command, error) {
 	}
 
 	rootCmd.AddCommand(cmd.MakeListCmd())
+	rootCmd.AddCommand(cmd.MakeAddCmd())
 	rootCmd.AddCommand(cmd.MakeImportCmd())
 	rootCmd.AddCommand(cmd.MakeStudyCmd())
 
