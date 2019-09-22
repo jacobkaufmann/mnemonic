@@ -2,6 +2,7 @@ package card
 
 import (
 	"fmt"
+	"math"
 	"strings"
 	"time"
 )
@@ -92,4 +93,19 @@ func (c *Card) LastAttempt() *Record {
 // NumAttempts returns the number of times an answer has been recorded for c.
 func (c *Card) NumAttempts() int {
 	return len(c.History)
+}
+
+// Confidence returns a confidence score for the card based on performance
+// history. The weight given to each record decreases exponentially as it moves
+// further into the past. The total confidence is a sum of the terms in the
+// geometric series.
+func (c *Card) Confidence() float64 {
+	var confidence float64
+	for i := len(c.History) - 1; i >= 0; i-- {
+		if c.History[i].Correct {
+			confidence += math.Pow(.5, float64(len(c.History)-i))
+		}
+	}
+
+	return confidence
 }
