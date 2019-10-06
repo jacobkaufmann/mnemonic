@@ -49,6 +49,7 @@ func (d *Deck) Study(filter Filter, shuffle bool) []*Card {
 			filtered = append(filtered, c)
 		}
 	}
+
 	return filtered
 }
 

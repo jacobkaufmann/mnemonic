@@ -9,10 +9,12 @@ func makeDir(dir string, perm os.FileMode) error {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		os.Mkdir(dir, os.ModeDir)
 	}
+
 	err := os.Chmod(dir, perm)
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
 

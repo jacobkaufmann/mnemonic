@@ -106,6 +106,5 @@ func (c *Card) Confidence() float64 {
 			confidence += math.Pow(.5, float64(len(c.History)-i))
 		}
 	}
-
 	return confidence
 }
