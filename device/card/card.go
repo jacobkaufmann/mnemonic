@@ -32,7 +32,6 @@ func NewFromMap(m map[string]interface{}, t Type) *Card {
 			a.WriteString(fmt.Sprintf("%s: %v\n", k, v))
 		}
 	}
-
 	return New(q.String(), a.String())
 }
 

@@ -66,7 +66,6 @@ func makeConfig() error {
 	if err != nil {
 		return err
 	}
-
 	_, err = os.Create(cfgFile)
 	if err != nil {
 		return err

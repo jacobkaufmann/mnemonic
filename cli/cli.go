@@ -27,6 +27,7 @@ func Init() error {
 			DeckDir(),
 			NoteDir(),
 		}
+
 		err = makeDirs(dirs, os.ModePerm)
 		if err != nil {
 			return err
